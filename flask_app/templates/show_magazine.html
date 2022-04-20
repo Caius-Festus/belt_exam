@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='reset.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+        <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+        <title>Welcome!</title>
+    </head>
+    <body>
+        <div id="container">
+            <header>
+                <h1></h1>
+                <nav>
+                    <a href="/dashboard">Dashboard</a>
+                    <a href="/new">Add Magazine</a>
+                    <a href="/user/account">Account</a>
+                    <a href="/logout" class="btn">logout</a>
+                </nav>
+            </header>
+            <div id="magazine_all">
+                <h1>{{magazine.title}}</h1>
+                <p>Description</p>
+                <p>{{magazine.description}}</p>
+                <p>subscribers</p>
+                {% for subscriber in magazine.subscribed_by%}
+                        <p>- {{subscriber.first_name}} {{subscriber.last_name}}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </body>
+</html>

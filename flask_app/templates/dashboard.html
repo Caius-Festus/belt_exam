@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='reset.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+        <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+        <title>Welcome!</title>
+    </head>
+    <body>
+        <div id="container">
+            <header>
+                <h1>Welcome {{session['first_name']}} {{session['last_name']}}!</h1>
+                <nav>
+                    <a href="/new">Add Magazine</a>
+                    <a href="/user/account">Account</a>
+                    <a href="/logout" class="btn">logout</a>
+                </nav>
+            </header>
+            <div id="magazine_all">
+                <h3>Magazines</h3>
+                <div id="magazine_list">
+                    {% for magazine in magazines %}
+                        <div id="magazine_line">
+                            <a href="/show/{{magazine.id}}">{{magazine.title}}</a>
+                            <p> added by {{magazine.creator_name}} </p>
+                            {% if session["user_id"] in magazine.subscribed_by %}
+                                <a href="/unsubscribe/{{session["user_id"]}}/{{magazine.id}}">Unsubscribe</a>
+                            {% else %}
+                                <a href="/subscribe/{{session["user_id"]}}/{{magazine.id}}">Subscribe</a>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

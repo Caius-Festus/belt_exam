@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='reset.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Welcome!</title>
+</head>
+<body>
+    <header>
+        <h1>SuperMag</h1>
+        <nav>
+            <a href="/new">Add Magazine</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout" class="btn">logout</a>
+        </nav>
+    </header>
+    <div class="bifurcated">
+        <div id="edit" class="form_container">
+            <h2>Update User</h2>
+            {% with messages = get_flashed_messages() %} <!-- declare a variable called messages -->
+                {% if messages %} <!-- check if there are any messages -->
+                    {% for message in messages %}   <!-- loop through the messages -->
+                        <p>{{message}}</p>  <!-- display each message in a paragraph tag -->
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form action="/update_user" method="post" class="survey_form">
+                <label for="first_name">First Name:</label>
+                <input type="text" name="first_name" value="{{session["first_name"]}}">
+                <label for="last_name">Last Name:</label>
+                <input type="text" name="last_name" value="{{session["last_name"]}}">
+                <label for="email">Email:</label>
+                <input type="text" name="email" value="{{session["email"]}}">
+                <input type="hidden" name="user_id" value={{session["user_id"]}}>
+                <input type='submit' value='Login' class="btn">
+            </form>
+        </div>
+        <div>
+            <h2>User's Magazines</h2>
+            <div>
+                <h3>Created Magazines</h3>
+                {% for magazine in created_mags %}
+                    <div id="magazine_line">
+                        <a href="/show/{{magazine.id}}">{{magazine.title}}</a>
+                        <a href="/delete/{{magazine.id}}">Delete</a>
+                        <p>subscribers: {{magazine.sub_count}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div>
+                <h3>Subscribed Magazines</h3>
+                {% for magazine in subbed_mags %}
+                    {% if session["user_id"] == magazine.user_id %}
+                        <div id="magazine_line">
+                            <a href="/show/{{magazine.id}}">{{magazine.title}}</a>
+                            <p>subscribers: {{magazine.sub_count}}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

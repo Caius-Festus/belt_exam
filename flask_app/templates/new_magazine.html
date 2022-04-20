@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='reset.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+        <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+        <title>Welcome!</title>
+    </head>
+    <body>
+        <div id="container">
+            <header>
+                <h1>SuperMag</h1>
+                <nav>
+                    <a href="/dashboard">Dashboard</a>
+                    <a href="/logout" class="btn">logout</a>
+                </nav>
+            </header>
+            <div>
+                <form action="/add_magazine" method="post" id="survey_form">
+                    <div>
+                        <label for="title">Title:</label>
+                        <input type="text" name="title">
+                        <label for="description">Instructions</label>
+                        <textarea name="description" rows="5"></textarea>
+                        <input type="hidden" name="user_id" value={{session["user_id"]}}>
+                        <input type="hidden" name="user_name" value="{{session["first_name"]}} {{session["last_name"]}}">
+                        <input type='submit' value='Submit' id="submit_button">
+                    </div>
+                    <div>
+                        {% with messages = get_flashed_messages() %} <!-- declare a variable called messages -->
+                            {% if messages %} <!-- check if there are any messages -->
+                                {% for message in messages %}   <!-- loop through the messages -->
+                                    <p>{{message}}</p>  <!-- display each message in a paragraph tag -->
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
